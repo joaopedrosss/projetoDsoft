@@ -33,6 +33,6 @@ Permite visualizar usuário que satisfazem os parâmetros de busca. Se o parâme
 
 Permite ver quais usuários alugaram quais carros.
 
-### 11 - Remover\editar dados de usuário
+#### 11 - Remover\editar dados de usuário
 
 Permite  excluir ou editar os dados do usuário cadastrado no sistema.
