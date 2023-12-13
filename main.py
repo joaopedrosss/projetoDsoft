@@ -26,7 +26,9 @@ def simOUnao(acao):
   while(True):
     confirm = input("Deseja {}? (s/n): ".format(acao)).lower()
 
-    if(confirm[0] == "s" or confirm[0] == "n"):
+    if confirm == "":
+      print("Ação inválida\nInsira 'S' para confirma ou 'N' para cancelar")
+    elif(confirm[0] == "s" or confirm[0] == "n"):
       break
     else:
       print("Ação inválida\nInsira 'S' para confirma ou 'N' para cancelar")
@@ -39,8 +41,8 @@ def simOUnao(acao):
  #1. Cadastrar carro
  O usuário consegue cadastrar um carro no sistema passado seus atributos.
 """
-def createCar(marca, modelo,ano):
-    carro = Carro(marca.lower(),modelo.lower(),ano)
+def createCar(marca, modelo,ano,preco,assentos):
+    carro = Carro(marca.lower(),modelo.lower(),ano,preco,assentos)
 
     return carro
 
@@ -50,6 +52,7 @@ def createCar(marca, modelo,ano):
 """
 def listarCarros(array):
   print("-------- lista de carros -------- ")
+  print("<nome> <disponibilidade> <preço do aluguel> <número de assentos>")
   print("D: DISPONÍVEL")
   print("N/A: CARRO NÃO DISPONÍVEL")
   print("--------")
@@ -58,7 +61,7 @@ def listarCarros(array):
   for i in range(0,len(array)):
     disponivel = "D" if array[i].alugado is False else "N/A"
     
-    print("[{}] {} ({})".format(i+1,array[i].show().capitalize(),disponivel))
+    print("[{}] {} ({}) R${:.2f} {}".format(i+1,array[i].show().capitalize(),disponivel,array[i].preco,array[i].lugares))
 
   print("--------")
 
@@ -74,18 +77,28 @@ def searchCar(array,carro):
       return [array[i]]
   return []
   
-
-def searchCarList(array,carro):
+#searchCarList(carros_cadastrados,search_car,preco_min,preco_max,assentos,ano_antigo,ano_atual)
+def searchCarList(array,carro,preco_min,preco_max,assentos,ano_antigo,ano_atual):
   #vai me retornar uma lista com os carros encontrados que deram match com os paramentros dados
   
   deuMatchCom = []
   for i in range(0,len(array)):
     match_car = 0
-    match_car += array[i].marca == carro.marca if carro.marca != "" else 1
-    match_car += array[i].modelo == carro.modelo if carro.modelo != "" else 1
-    match_car += array[i].ano == carro.ano if carro.ano != -1 else 1
+    match_car += (array[i].marca == carro.marca) if carro.marca != "" else 1
+    match_car += (array[i].modelo == carro.modelo) if carro.modelo != "" else 1
 
-    if(match_car == 3):
+    match_car += (array[i].preco >= preco_min)if preco_min != -1 else 1
+    
+    match_car += (array[i].preco <= preco_max)if preco_max != -1 else 1
+
+    match_car += (array[i].lugares <= assentos)if assentos != -1 else 1
+
+    match_car += (array[i].ano >= ano_antigo)if ano_antigo != -1 else 1
+
+    match_car += (array[i].ano <= ano_atual)if ano_atual != -1 else 1
+
+
+    if(match_car == 7):
       deuMatchCom.append(array[i])
       
   return deuMatchCom
@@ -110,15 +123,18 @@ def searchCarList(array,carro):
 
 carros_cadastrados = []
 
-carros_cadastrados.append(createCar("ford","car",2010))
-carros_cadastrados.append(createCar("fiat","uno",2010))
-carros_cadastrados.append(createCar("pegout","boxer furgão",2001))
-carros_cadastrados.append(createCar("mcLaren","artura",2012))
-carros_cadastrados.append(createCar("ferrari","288 gto",1984))
-carros_cadastrados.append(createCar("honda","civic",2010))
-carros_cadastrados.append(createCar("honda","velozte",2005))
-carros_cadastrados.append(createCar("lamborguini","aventador",2012))
-carros_cadastrados.append(createCar("lamborguini","forza",2012))
+carros_cadastrados.append(createCar("ford","car",2010,500,4))
+carros_cadastrados.append(createCar("fiat","uno",2010,420,4))
+carros_cadastrados.append(createCar("fiat","elba",2008,320,4))
+carros_cadastrados.append(createCar("fiat","tempra",1991,320,4))
+carros_cadastrados.append(createCar("pegout","boxer furgão",2001,130,6))
+carros_cadastrados.append(createCar("mcLaren","artura",2012,1200,2))
+carros_cadastrados.append(createCar("ferrari","288 gto",1984,1300,2))
+carros_cadastrados.append(createCar("honda","civic",2010,600,4))
+carros_cadastrados.append(createCar("honda","velozte",2005,200,3))
+carros_cadastrados.append(createCar("bulgati","aventador",2012,1000,2))
+carros_cadastrados.append(createCar("bulgati","forza",2012,1500,2))
+
 
 
 
@@ -132,15 +148,18 @@ while True:
       break
       
     case 1:
-      print("Insira:")
+      print("- Insira -")
       marca = input("marca:")
       modelo = input("modelo:")
       ano = int(input("ano:"))
+      preco = float(input("preço de aluguel:"))
+      lugares = int(input("número de lugares:"))
+
       
       confirm = simOUnao("cadastrar carro '{} {} {}'".format(marca,modelo,ano)) 
 
       if(confirm is True):
-        carros_cadastrados.append(createCar(marca,modelo,ano))
+        carros_cadastrados.append(createCar(marca,modelo,ano,preco,lugares))
         print("Carro cadastrado com sucesso!")
       else:
         print("Cadastro cancelado!")  
@@ -182,7 +201,7 @@ while True:
             if idx <= 0 or idx > len(carros_cadastrados):
               print("CARRO NÃO ENCONTRADO")
             elif carros_cadastrados[idx-1].alugado is False:
-              print("CARRO NÃO ALUGADO")
+              print("CARRO NÃO ALUGADO, NÃO É POSSÍVEL DEVOLVER")
             else:
               confirm = simOUnao("devolver carro {}".format(carros_cadastrados[idx-1].show().capitalize()))
   
@@ -207,35 +226,55 @@ while True:
     case 4:
       print("---- Pesquisa de Carro ---- ")
       print("Preencha os campos abaixo para realizar a pesquisa")
-      print("Caso queira deixar campo vazio, aperte 'ENTER'")
+      print("Caso não queira levar um campo em consideração, aperte 'ENTER'")
       print("----------------------------")
-      print("Insira:")
+      print("- Insira -")
       marca = input("marca:").lower()
       modelo = input("modelo:").lower()
-      ano = input("ano:")
+      ano_antigo = input("Do ano (inicial)... ")
+      ano_atual = input("até o ano (final)... ")
 
-      ano = int(ano) if ano != "" else -1
+
+      preco_min = input("preço (mínimo):")
+      preco_max = input("preço (máximo):")
+      assentos = input("Número de assentos (máximo):")
+
+      ano_antigo = int(ano_antigo) if ano_antigo != "" else -1
+      ano_atual = int(ano_atual) if ano_atual != "" else -1
+
+
+      assentos = int(assentos) if assentos != "" else -1
+      preco_min = float(preco_min) if preco_min != "" else -1
+      preco_max = float(preco_max) if preco_max != "" else -1
+
+     
       
-      search_car = createCar(marca,modelo,ano)
+      search_car = createCar(marca,modelo,0,0,0)
       
 
-      carros_encontrados = searchCarList(carros_cadastrados,search_car)
+      carros_encontrados = searchCarList(carros_cadastrados,search_car,preco_min,preco_max,assentos,ano_antigo,ano_atual)
       if(carros_encontrados != []):
+
         print("Carros Encontrados:")
+        listarCarros(carros_encontrados)
+        """
         for carro in carros_encontrados:
-          print(carro.show().capitalize())
+          print("{} R${:.2f}".format(carro.show().capitalize()))
+        """
       else:
         print("Nenhum carro encontrado com tais parametros.")
 
     case 5:
       print("---- Remoção de Carro ---- ")
       print("Digite os dados do carro que deseja remover")
-      print("Insira:")
+      print("- Insira -")
+      # marca, modelo, ano, preco = 0,lugares = 0,alugado=False):
       marca = input("marca:").lower()
       modelo = input("modelo:").lower()
-      ano = input("ano:")
+      ano = int(input("ano:"))
 
-      procurarPor = createCar(marca,modelo,ano)
+
+      procurarPor = createCar(marca,modelo,ano,0,0)
       
       carro_encontrado = searchCar(carros_cadastrados,procurarPor)
       if(carro_encontrado != []):
@@ -263,13 +302,27 @@ while True:
         if(confirmar is True):
           print("Insira os novos dados")
           print("Caso não queira fazer modificações, aperter ENTER no campo selecionado")
-          new_marca = input("marca:").lower()
-          new_modelo = input("modelo:").lower()
-          new_ano = input("ano:")
+          new_marca = input("marca [{}] :".format(carros_cadastrados[idx].marca )).lower()
+          new_modelo = input("modelo [{}]:".format(carros_cadastrados[idx].modelo)).lower()
+
+          new_ano = input("ano [{}]:".format(carros_cadastrados[idx].ano))
+          new_preco = input("preço de aluguel [ R${:.2f} ]:".format(carros_cadastrados[idx].preco))
+          new_lugares = input("número de assentos [{}]:".format(carros_cadastrados[idx].lugares))
+          
 
           carros_cadastrados[idx].marca = carros_cadastrados[idx].marca if new_marca == "" else new_marca
+
           carros_cadastrados[idx].modelo = carros_cadastrados[idx].modelo if new_modelo == "" else new_modelo
-          carros_cadastrados[idx].ano = carros_cadastrados[idx].ano if new_ano == "" else new_ano
+
+          carros_cadastrados[idx].ano = carros_cadastrados[idx].ano if new_ano == "" else int(new_ano)
+
+          carros_cadastrados[idx].preco = carros_cadastrados[idx].preco if new_preco == "" else float(new_preco)
+
+          carros_cadastrados[idx].lugares = carros_cadastrados[idx].lugares if new_lugares == "" else int(new_lugares)
+
+
+
+
           print("DADOS EDITADOS COM SUCESSO!")
           
         else:
