@@ -42,7 +42,7 @@ file.close()
 
 file = open("cliente-data.txt","w")
 
-for cliente in usuarios_cadastrados:
+for cliente in usuarios_cadastrado:
     clienteData = "{} {}\n".format(cliente.nome,cliente.id)
 
     file.write(clienteData)
