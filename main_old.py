@@ -261,7 +261,7 @@ while True:
            break
         limpar_tela()
       
-    case 2:
+    case 2: #JÁ FOI
       listarCarros(carros_cadastrados,idNomeTable)
   
     case 3:

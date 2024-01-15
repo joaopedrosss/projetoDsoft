@@ -2,7 +2,7 @@ from datetime import datetime
 
 class Carro():
 
-  def __init__(self, marca, modelo, ano, preco = 0,assentos = 0,alugado=False,dono=""):
+  def __init__(self, marca = "", modelo = "", ano = 0, preco = 0,assentos = 0,alugado=False,dono=""):
     self.__marca = marca.lower()
     self.__modelo = modelo
     self.__ano = ano
@@ -14,9 +14,11 @@ class Carro():
   def mostrar(self):
     return "{} {} {}".format(self.__marca,self.__modelo,self.__ano)
   
+  
   def getPreco(self):
     return self.__preco
   def setPreco(self,value):
+    
     try:
       newValue = float(value)
     except (TypeError, ValueError) as erro:
@@ -24,11 +26,13 @@ class Carro():
     if(newValue < 0):
       print("Valor inválido: precisa ser um número positivo ou nulo")
       return
+    
     self.__preco = newValue
 
   def getAno(self):
     return self.__ano 
   def setAno(self,value):
+    
     try:
       newValue = int(value)
     except (TypeError, ValueError) as erro:
@@ -36,11 +40,13 @@ class Carro():
     if(newValue < 0 or newValue > datetime.now().year):
       print("Valor inválido: precisa ser um número positivo ou ano até o ano atual: " + str(datetime.now().year))
       return
+    
     self.__ano = newValue
     
   def getAssentos(self):
     return self.__assentos
   def setAssentos(self,value):
+    
     try:
       newValue = int(value)
     except (TypeError, ValueError) as erro:
@@ -48,6 +54,7 @@ class Carro():
     if(newValue <= 0):
       print("Valor inválido: precisa ser um número positivo")
       return
+    
     self.__assentos = newValue
   
   def getDono(self):
@@ -71,6 +78,32 @@ class Carro():
   def setAlugado(self,value):
     self.__alugado = value
   
+class CarroPesquisado(Carro):
+  def __init__(self,m="",md = "",a ="",p=0,asse = 0, al = False, dono = ""):
+    super().__init__(m,md,a,p,asse,al,dono)
+  
+    self.__rangeAno = (0,0)
+    self.__rangePreco = (0,0)
+    self.__rangeAssentos = (0,0)
+  
+  def getRangeAno(self):
+    return self.__rangeAno
+
+  def setRangeAno(self,min,max):
+    self.__rangeAno = (min,max)
+
+  def getRangePreco(self):
+    return self.__rangePreco
+
+  def setRangePreco(self,min,max):
+    self.__rangePreco = (min,max)
+
+  def getRangeAssentos(self):
+    return self.__rangeAssentos
+
+  def setRangeAssentos(self,min,max):
+    self.__rangeAssentos = (min,max)
+    
 class ListaCarros():
   def __init__(self,lista=[]):
         self.__lista = lista
@@ -82,8 +115,7 @@ class ListaCarros():
       self.__lista.append(value)
     
   def mostrar(self):
-      print("""
--------- lista de carros --------
+      print("""-------- lista de carros --------
 <nome> <preço do aluguel> <número de assentos> <disponibilidade>
 D: DISPONÍVEL
 N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
@@ -99,6 +131,7 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
                                      carro.getAssentos(),
                                      disponivel,
                                      contratante))
+        #print(carro.getAno(),type(carro.getAno()))
 
       print("--------")
       return None
@@ -111,10 +144,10 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
       return (atr_a == atr_b) if atr_b != "" else 1
 
     if(option == 2): #range of values
-      min_value = atr_b[0] if atr_b[0] != -1 else 0
-      max_value = atr_b[1]+1 if atr_b[1] != -1 else atr_a+1
+      min_value = 0 if atr_b[0] == -1 else atr_b[0]
+      max_value = atr_a if atr_b[1] == -1 else atr_b[1]
 
-      return atr_a in range(min_value,max_value)
+      return (atr_a >= min_value) and (atr_a <= max_value)
 
   def procurar(self,value):
 
@@ -122,11 +155,11 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
     for i,carro in enumerate(self.__lista):
       match_car = 0
 
-      match_car += self.matchAtributes(carro,value.getMarca())
-      match_car += self.matchAtributes(carro,value.getModelo())
-      match_car += self.matchAtributes(carro.getPreco(),(value.preco_min,value.preco_max),2)
-      match_car += self.matchAtributes(carro.getAno(),(value.ano_antigo,value.ano_atual),2)
-      match_car += self.matchAtributes(carro.getAssentos(),(0,value.getAssentos),2)
+      match_car += self.matchAtributes(carro.getMarca(),value.getMarca(),1)
+      match_car += self.matchAtributes(carro.getModelo(),value.getModelo(),1)
+      match_car += self.matchAtributes(carro.getPreco(),value.getRangePreco(),2)
+      match_car += self.matchAtributes(carro.getAno(),value.getRangeAno(),2)
+      match_car += self.matchAtributes(carro.getAssentos(),value.getRangeAssentos(),2)
       
       #print(match_car)
       if(match_car == 5):
@@ -134,6 +167,46 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
 
     return deuMatchCom
 
+  def criarCarroParaPesquisa(self):
+      print("- Pesquisa de Carro -")
+      print("Preencha os campos abaixo para realizar a pesquisa")
+      print("Caso não queira levar um campo em consideração, aperte 'ENTER' ao preencher")
+      print("--------")
+      print("- Insira -")
+
+      carro_procurado = CarroPesquisado()
+
+      marca = input("marca:").lower()
+      modelo = input("modelo:").lower()
+
+      ano_antigo = input("Do ano (inicial) :")
+      ano_atual = input("até o ano (final) :")
+
+      preco_min = input("preço (mínimo):")
+      preco_max = input("preço (máximo):")
+      assentos = input("Número de assentos (máximo):")
+
+      try:
+        #Flag -1: o valor númerico é inrrelavante no momento
+        ano_antigo = int(ano_antigo) if ano_antigo != "" else -1
+        ano_atual = int(ano_atual) if ano_atual != "" else -1 
+
+        assentos = int(assentos) if assentos != "" else -1
+        preco_min = float(preco_min) if preco_min != "" else -1
+        preco_max = float(preco_max) if preco_max != "" else -1
+      except:
+        print("Valor inválido. O usuário digitou número inválido em um campo.\nTente novamente")
+        return None
+
+      carro_procurado.setMarca(marca)
+      carro_procurado.setModelo(modelo)
+      carro_procurado.setRangeAssentos(1,assentos)
+      carro_procurado.setRangePreco(preco_min,preco_max)
+      carro_procurado.setRangeAno(ano_antigo,ano_atual)
+      
+      
+      
+      return carro_procurado
 
 
 
