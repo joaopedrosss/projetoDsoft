@@ -1,8 +1,8 @@
 from os import system,name
 
 class Menu():
-    def __init__(self):
-        self.__actions = ["Sair","Listar carros","Procurar carros"]
+    def __init__(self, lista = ["Sair","Listar veículos","Procurar veículos","Logar no sistema"]):
+        self.__actions = lista
     
     def mostrar(self):
         print("RENTAL CAR\nDigite o número da ação que deseja fazer\n------------")
@@ -19,7 +19,29 @@ class Menu():
 
     
 class MenuUsuario(Menu):
-    pass
+    
+    def __init__(self, lista = ["Sair",
+                                "Listar veículos",
+                                "Procurar veículos",
+                                "Alugar veículo",
+                                "Devolver veículo",
+                                "Ver veículos alugados",
+                                "Deslogar no sistema"]):
+        super().__init__(lista)
+        #self.__actions.remove("Logar no sistema")
+        #self.__actions.extends(["Alugar/Devolver veículos","Ver carros alugados","Deslogar no sistema"])
+    
 
-class MenuAdmin(MenuUsuario):
-    pass
+class MenuAdmin(Menu):
+    def __init__(self, lista = ["Sair",
+                                "Listar veículos",
+                                "Procurar veículos",
+                                "Alugar veículo <-",
+                                "Devolver veículo <-",
+                                "Ver veículos alugados <-",
+                                "Ver usuários cadastrados <-"]):
+        super().__init__(lista)
+
+        self.__listaAdmin = ["Cadastrar veículo <-","Editar dados de veículos <-",
+                             "Cadastrar usuário <-","Editar dados de usuário <-",
+                             "Remover usuário <-","Remover veículo <-"]

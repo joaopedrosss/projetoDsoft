@@ -1,6 +1,6 @@
-Augusto Guedes augusto
-Arthur Marques marquesArthur
-Rafael Pereira rafael
-Rafaela Goes rafaela
-Ursula Ferreira ursulaf
-Marcelo Cruz De Almeira marceloCruz
+Augusto_Guedes augusto 0 pass1
+Arthur_Marques marquesArthur 0 pass2
+Rafael_Pereira rafael 1 pass2
+Rafaela_Goes rafaela 0 pass3
+Ursula_Ferreira ursulaf 0 pass4
+Marcelo_Cruz_De_Almeira marceloCruz 0 pass5

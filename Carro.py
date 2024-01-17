@@ -14,7 +14,6 @@ class Carro():
   def mostrar(self):
     return "{} {} {}".format(self.__marca,self.__modelo,self.__ano)
   
-  
   def getPreco(self):
     return self.__preco
   def setPreco(self,value):
@@ -108,9 +107,15 @@ class ListaCarros():
   def __init__(self,lista=[]):
         self.__lista = lista
   
+  def getSize(self):
+        return len(self.getCarro())
+
   def getCarro(self):
     return self.__lista
   
+  def getByIdx(self,idx): #Retorne o carro na posição 'idx'
+    return self.__lista[idx]
+
   def setCarro(self,value):
       self.__lista.append(value)
     
@@ -208,6 +213,18 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
       
       return carro_procurado
 
+  def mostrarCarrosEncontrados(self, carros_encontrados):
+        print(" ----------- ")
+        print("Carros econtrados:")
+
+        if(carros_encontrados == []):
+          print("Nenhum carro encontrado com tais parametros!")
+        else:
+          for carro in carros_encontrados:
+            dispo = "DISPONIVEL" if carro.getAlugado() is False else "NÃO DISPONIVEL"
+
+            print("{} R$ {:.2f} {}".format(carro.mostrar().capitalize(),carro.getPreco(),dispo))
+        print(" ----------- ")
 
 
   

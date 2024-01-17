@@ -359,7 +359,7 @@ while True:
         else:
           break
 
-    case 4:
+    case 4: #JÁ FOI
       print("---- Pesquisa de Carro ---- ")
       print("Preencha os campos abaixo para realizar a pesquisa")
       print("Caso não queira levar um campo em consideração, aperte 'ENTER'")
