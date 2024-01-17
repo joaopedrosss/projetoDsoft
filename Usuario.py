@@ -9,7 +9,6 @@ class Usuario():
         self.__admin = admin
         self.__password = passw
 
-
     """    
     def alugarCarro(self,carro):
         print("------------")
@@ -89,10 +88,26 @@ class Usuario():
             print("O veículo não foi alugado por você.\nNão é possível devolver tal veículo.")
  
 class Admin(Usuario):
-    def __init__(self,nome= '',id = '',logado = False,passw = "",admin = True,carros = []):
-        super().__init__(nome,id,logado,passw,admin,carros)
+    def __init__(self,nome= '',id_ = '',logado = False,passw = "",admin = True,carros = []):
+        super().__init__(nome,id_,logado,passw,admin,carros)
     
+    def cadastarCarro(self,lista):
+        pass
 
+    def cadastrarUsuario(self,lista):
+        pass
+
+    def editarCarro(self,carro):
+        pass
+
+    def editarUsuario(self,user):
+        pass
+
+    def removeCarro(self,lista):
+        pass
+
+    def removerUser(self,lista):
+        pass
 
 class ListaUsuario():
     def __init__(self,lista = []):
@@ -121,7 +136,9 @@ class ListaUsuario():
             for count,user in enumerate(self.getUsuarios()):
                 #print("{} [{}] <{}>".format(user.getNome(),user.getId(),user.getPass()))
                 word = "{} {} [{}]".format(count+1,user.getNome(),user.getId())
+                word += " (admin)" if user.getAdmin() else ""
                 print(word)
+                
         
         print(" ------------ ")
 

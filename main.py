@@ -1,5 +1,5 @@
 from Carro import Carro,ListaCarros
-from Usuario import Usuario, ListaUsuario
+from Usuario import Usuario, ListaUsuario,Admin
 from Menu import Menu,MenuUsuario, MenuAdmin
 from Login import Login
 
@@ -62,11 +62,20 @@ for line in usersFile:
   logado = True if dados[2] == "1" else False
   password = dados[3]
 
+  admin = True if dados[4] == "1" else False
+
   #TODO : superar limitação do arquivo de texto (como armazenar uma lista de objetos num txt) com JSON
-  user = Usuario(nome,id_user,logado,password)
+
+  user = None
+
+  if(admin):
+    user = Admin(nome,id_user,logado,password,True)
+  else:
+    user = Usuario(nome,id_user,logado,password)
 
   lista_de_usuarios.setUsuarios(user)
 usersFile.close()
+
 # INTERFACE 
 
 #lista_de_usuarios.mostrar()
@@ -90,17 +99,24 @@ while True:
   if(login.getSession()): # _ COM LOGIN
     usuario_atual = login.getUserInSession()
     
-    print("U: {} @{}\n--------".format(usuario_atual.getNome(),usuario_atual.getId()))
+    print("U: {} @{}".format(usuario_atual.getNome(),usuario_atual.getId()))
 
     if(usuario_atual.getAdmin()): # _ COM LOGIN DE ADMIN
-      print("->[admin]")
+      print("->[admin]\n--------")
       menu_de_admin.mostrar()
+
+      action = input(">")
+      try:
+        action = int(action)  
+      except:
+        print("Valor inválido. Digite novamente")
 
       match action:
         case 0:
           break
         
     else: # _ COM LOGIN COMUM
+      print("--------")
       menu_de_usuario.mostrar()
 
       action = input(">")

@@ -39,9 +39,11 @@ class MenuAdmin(Menu):
                                 "Alugar veículo <-",
                                 "Devolver veículo <-",
                                 "Ver veículos alugados <-",
-                                "Ver usuários cadastrados <-"]):
+                                "Ver usuários cadastrados <-",
+                                "Cadastrar veículo <-",
+                                "Editar dados de veículos <-",
+                                "Cadastrar usuário <-",
+                                "Editar dados de usuário <-",
+                                "Remover usuário <-",
+                                "Remover veículo <-"]):
         super().__init__(lista)
-
-        self.__listaAdmin = ["Cadastrar veículo <-","Editar dados de veículos <-",
-                             "Cadastrar usuário <-","Editar dados de usuário <-",
-                             "Remover usuário <-","Remover veículo <-"]
