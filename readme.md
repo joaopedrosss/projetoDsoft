@@ -4,7 +4,6 @@
 
 As features variam de acordo com o tipo de usuário cadastrado no sistema.
 
-
 ### Sem login no sistema
 
 Sem um cadastro no sistema,o usuário pode:
@@ -47,15 +46,15 @@ O esse tipo de conta permite ao usuário o mesmo acesso às funcionalidades de u
 
 #### Cadastrar carro ou usuário
 
-O usuário Admin pode cadastrar um veículo ou um novo usuáirio no sistema.
+O usuário Admin pode cadastrar um veículo ou um novo usuário no sistema.
 
 #### Editar dados de veículos ou de usuário 
 
-O usuário Admin pode alterar dados de um veículo ou um usuáirio no sistema.
+O usuário Admin pode alterar dados de um veículo ou de um usuário no sistema.
 
 #### Remover dados de veículos ou de usuário 
 
-O usuário Admin pode remover um veículo ou um usuáirio do sistema.
+O usuário Admin pode remover um veículo ou um usuário do sistema.
 
 #### Alugar ou devolver carros de qualquer usuário
 
@@ -63,4 +62,4 @@ O usuário Admin pode alugar para qualquer usuário, assim como pode devolver ve
 
 #### Listar usuários
 
-O usuário pode visualizar os dados de todos os usuários.
+O usuário Admin pode visualizar os dados de todos os usuários.
