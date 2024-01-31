@@ -2,37 +2,65 @@
 
 ## Funcionalidades
 
+As features variam de acordo com o tipo de usuário cadastrado no sistema.
 
-#### 1 - Cadastrar carro
 
-O usuário pode cadastrar um carro no sistema colocando os respectivos dados do carro.
+### Sem login no sistema
 
-#### 2 - Listar carros
+Sem um cadastro no sistema,o usuário pode:
+
+#### Listar carros
 
 O usuário pode visualizar todos os carros disponíveis e indisponíveis para aluguel.
-#### 3 - Alugar ou devolver carro
-Permite mudar o status de um objeto carro para alugado (True) ou não (False).
-#### 4 - Pesquisar carro
-Permite visualizar carros que satisfazem os parâmetros de busca. Se o parâmetro estiver vazio, ele não é considerado na busca.
-#### 5 - Remover carro
-Permite o usuário excluir os dados do carro do sistema.
-#### 6 - Editar dados de carro
-Dado um objeto carro, permite mudar os atributos de tal objeto.
-#### 7 -  Cadastrar usuário
 
-O usuário pode cadastrar um usuário no sistema colocando os respectivos dados do dele.
+#### Buscar carros
 
-#### 8 - Listar usuários
+O usuário pode fazer uma busca por carros baseada em parâmetros opcionais.
 
-Permite visualizar todos os usuários cadastrados no sistema.
+#### Logar-se no sistema
 
-#### 9 - Buscar usuário
-Permite visualizar usuário que satisfazem os parâmetros de busca. Se o parâmetro estiver vazio, ele não é considerado na busca.
+O usuário se logar na sua conta no sistema com um id e senha.
 
-#### 10 - Ver contratos
+### Usuário Comum
 
-Permite ver quais usuários alugaram quais carros.
+Uma vez que o usuário se loga no sistema, além das duas primeiras features, ele tem acesso às seguintes funcionalidades:
 
-#### 11 - Remover\editar dados de usuário
+#### Alugar veículo
 
-Permite  excluir ou editar os dados do usuário cadastrado no sistema.
+O usuário pode alugar um veículo, tornando-o seu até que o devolva.
+
+#### Devolver veículo
+
+Uma vez tendo alugado um veículo, é possível ao usuário devolvé-lo.
+
+#### Ver veículos alugados
+
+O usuário pode ver os veículos que ele mesmo alugou.
+
+#### Deslogar no sistema
+
+O usuário pode sair da sua conta, encerrando a sessão.
+
+### Usuário Admin
+
+O esse tipo de conta permite ao usuário o mesmo acesso às funcionalidades de um Usuário Comum, algumas dessas agora com uso expandido, além de outras features, como cadastro de veículo ou usuário.
+
+#### Cadastrar carro ou usuário
+
+O usuário Admin pode cadastrar um veículo ou um novo usuáirio no sistema.
+
+#### Editar dados de veículos ou de usuário 
+
+O usuário Admin pode alterar dados de um veículo ou um usuáirio no sistema.
+
+#### Remover dados de veículos ou de usuário 
+
+O usuário Admin pode remover um veículo ou um usuáirio do sistema.
+
+#### Alugar ou devolver carros de qualquer usuário
+
+O usuário Admin pode alugar para qualquer usuário, assim como pode devolver veículos que qualquer usuário possa ter alugado.
+
+#### Listar usuários
+
+O usuário pode visualizar os dados de todos os usuários.

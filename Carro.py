@@ -226,5 +226,7 @@ N/A: CARRO NÃO DISPONÍVEL (incluindo quem o alugou)
             print("{} R$ {:.2f} {}".format(carro.mostrar().capitalize(),carro.getPreco(),dispo))
         print(" ----------- ")
 
+  def removeFrom(self,value):
+        self.__lista.remove(value)
 
   
